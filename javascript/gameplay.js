@@ -91,98 +91,35 @@ function buildMaze() {
 }
 
 function drawMaze() {
-
-    context.fillStyle = "#000000";
     context.strokeStyle = "#000000";
     context.beginPath();
 
     // build horizontal walls
-    for(var i = 0; i < horizontalWalls.length; ++i) {
-        context.moveTo(0, (i + 1) * gameBoard.height / 10);
+    for(var row = 0; row < horizontalWalls.length; ++row) {
+        context.moveTo(0, (row + 1) * gameBoard.height / 10);
 
-        for(var j = 0; j < horizontalWalls[0].length; ++j) {
-            if(horizontalWalls[i][j]) {
-                context.lineTo((j + 1) * gameBoard.width / 20, (i + 1) * gameBoard.height / 10);
+        for(var col = 0; col < horizontalWalls[0].length; ++col) {
+            if(horizontalWalls[row][col]) {
+                context.lineTo((col + 1) * gameBoard.width / 20, (row + 1) * gameBoard.height / 10);
             } else {
-                context.moveTo((j + 1) * gameBoard.width / 20,  (i + 1) * gameBoard.height / 10);
+                context.moveTo((col + 1) * gameBoard.width / 20,  (row + 1) * gameBoard.height / 10);
             }
         }
     }
 
     // build vertical walls
-    for(var j = 0; j < verticalWalls[0].length; ++j) {
-        context.moveTo((j + 1) * gameBoard.width / 20, 0);
+    for(var col = 0; col < verticalWalls[0].length; ++col) {
+        context.moveTo((col + 1) * gameBoard.width / 20, 0);
 
-        for(var i = 0; i < verticalWalls.length; ++i) {
-            if(verticalWalls[i][j]) {
-                context.lineTo((j + 1) * gameBoard.width / 20, (i + 1) * gameBoard.height / 10);
+        for(var row = 0; row < verticalWalls.length; ++row) {
+            if(verticalWalls[row][col]) {
+                context.lineTo((col + 1) * gameBoard.width / 20, (row + 1) * gameBoard.height / 10);
             } else {
-                context.moveTo((j + 1) * gameBoard.width / 20,  (i + 1) * gameBoard.height / 10);
+                context.moveTo((col + 1) * gameBoard.width / 20,  (row + 1) * gameBoard.height / 10);
             }
         }
     }
 
-    /*
-    context.moveTo(0, gameBoard.height / 10);
-    context.lineTo(gameBoard.width / 20 * 19, gameBoard.height / 10);
-    context.lineTo(gameBoard.width / 20 * 19, gameBoard.height / 10 * 9);
-
-    context.moveTo(gameBoard.width / 20 * 18, gameBoard.height);
-    context.lineTo(gameBoard.width / 20 * 18, gameBoard.height / 10 * 2);
-
-    context.moveTo(gameBoard.width / 20 * 17, gameBoard.height / 10);
-    context.lineTo(gameBoard.width / 20 * 17, gameBoard.height / 10 * 9);
-    context.lineTo(gameBoard.width / 20 * 1, gameBoard.height / 10 * 9);
-
-    context.moveTo(gameBoard.width / 20 * 16, gameBoard.height / 10 * 2);
-    context.lineTo(gameBoard.width / 20 * 16, gameBoard.height / 10 * 8);
-    context.lineTo(gameBoard.width / 20 * 14, gameBoard.height / 10 * 8);
-    context.lineTo(gameBoard.width / 20 * 14, gameBoard.height / 10 * 2);
-    context.lineTo(gameBoard.width / 20, gameBoard.height / 10 * 2);
-    context.lineTo(gameBoard.width / 20, gameBoard.height / 10 * 4);
-    context.lineTo(gameBoard.width / 20 * 8, gameBoard.height / 10 * 4);
-
-    context.moveTo(gameBoard.width / 20 * 15, gameBoard.height / 10);
-    context.lineTo(gameBoard.width / 20 * 15, gameBoard.height / 10 * 7);
-
-    context.moveTo(gameBoard.width / 20 * 2, gameBoard.height / 10 * 3);
-    context.lineTo(gameBoard.width / 20 * 13, gameBoard.height / 10 * 3);
-
-    context.moveTo(gameBoard.width / 20 * 9, gameBoard.height / 10 * 3);
-    context.lineTo(gameBoard.width / 20 * 9, gameBoard.height / 10 * 8);
-
-    context.moveTo(0, gameBoard.height / 10 * 5);
-    context.lineTo(gameBoard.width / 20 * 13, gameBoard.height / 10 * 5);
-
-    context.moveTo(gameBoard.width / 20 * 14, gameBoard.height / 10 * 4);
-    context.lineTo(gameBoard.width / 20 * 10, gameBoard.height / 10 * 4);
-
-    context.moveTo(gameBoard.width / 20 * 13, gameBoard.height / 10 * 9);
-    context.lineTo(gameBoard.width / 20 * 13, gameBoard.height / 10 * 7);
-
-    context.moveTo(gameBoard.width / 20 * 14, gameBoard.height / 10 * 6);
-    context.lineTo(gameBoard.width / 20 * 9, gameBoard.height / 10 * 6);
-
-    context.moveTo(gameBoard.width / 20, gameBoard.height / 10 * 9);
-    context.lineTo(gameBoard.width / 20, gameBoard.height / 10 * 6);
-    context.lineTo(gameBoard.width / 20 * 8, gameBoard.height / 10 * 6);
-    context.lineTo(gameBoard.width / 20 * 8, gameBoard.height / 10 * 7);
-
-    context.moveTo(gameBoard.width / 20 * 12, gameBoard.height / 10 * 6);
-    context.lineTo(gameBoard.width / 20 * 12, gameBoard.height / 10 * 8);
-
-    context.moveTo(gameBoard.width / 20 * 11, gameBoard.height / 10 * 9);
-    context.lineTo(gameBoard.width / 20 * 11, gameBoard.height / 10 * 7);
-    context.lineTo(gameBoard.width / 20 * 10, gameBoard.height / 10 * 7);
-
-    context.moveTo(gameBoard.width / 20 * 10, gameBoard.height / 10 * 8);
-    context.lineTo(gameBoard.width / 20 * 2, gameBoard.height / 10 * 8);
-    context.lineTo(gameBoard.width / 20 * 2, gameBoard.height / 10 * 7);
-    context.lineTo(gameBoard.width / 20 * 7, gameBoard.height / 10 * 7);
-    context.lineTo(gameBoard.width / 20 * 7, gameBoard.height / 10 * 8);
-
-    context.moveTo(gameBoard.width / 20 * 10, gameBoard.height / 10 * 8);
-*/
     context.stroke();
 }
 
@@ -220,6 +157,11 @@ function moveCircle(e) {
         circle.y = circle.radius;
     }
 
+    // if(touchingWall()) {
+    //     alert("Oops!");
+    //     console.log("Oops!");
+    // }
+
     context.clearRect(-10, -10, gameBoard.width + 10, gameBoard.height + 10);
     drawGrid();
     drawEnd();
@@ -229,6 +171,25 @@ function moveCircle(e) {
     if(userHasWon()) {
         alert("You win!");
     }
+}
+
+function touchingWall() {
+    var row = Math.floor(circle.y / (gameBoard.height / 10));
+    var col = Math.floor(circle.x / (gameBoard.width / 20));
+
+    if(row != 10 && horizontalWalls[row][col]) {
+        if((circle.y - circle.radius < row * gameBoard.height / 10) && (circle.y + circle.radius > row * gameBoard.height / 10)) {
+            return true;
+        }
+    }
+
+    if(col != 20 && verticalWalls[row][col]) {
+        if((circle.x - circle.radius < col * gameBoard.width / 20) && (circle.x + circle.radius > col * gameBoard.width / 20)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Source: http://stackoverflow.com/questions/20885297/collision-detection-in-html5-canvas
