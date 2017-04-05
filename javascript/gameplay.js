@@ -3,11 +3,11 @@
  */
 var gameBoard;
 var context;
-var map = {}; // You could also use an array
 var circle;
+var start;
 var end;
-var wall;
-var step = 1;
+var horizontalWalls;
+var verticalWalls;
 
 $(document).ready(function(){
     gameBoard = document.getElementById("gameBoard");
@@ -16,10 +16,12 @@ $(document).ready(function(){
 
     circle = {
         radius: 10,
-        x: 10,
-        y: 10,
+        x: gameBoard.width / 40,
+        y: gameBoard.height / 20,
         color: "#ff0000"
     }
+
+    start = document.getElementById("start");
 
     end = {
         width: gameBoard.width / 20,
@@ -29,14 +31,17 @@ $(document).ready(function(){
         color: "#ffff00"
     }
 
+    buildMaze();
+
     drawGrid();
     drawEnd();
     drawMaze();
     drawCircle();
 
-    //onkeydown = onkeyup =  moveCircle
-    gameBoard.addEventListener("mousemove", function(event) {
-        moveCircle(event);
+    start.addEventListener("click", function(event) {
+        gameBoard.addEventListener("mousemove", function(event) {
+            moveCircle(event);
+        });
     });
 });
 
@@ -58,12 +63,66 @@ function drawGrid() {
     context.stroke();
 }
 
+function buildMaze() {
+    horizontalWalls = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]
+    ];
+
+    verticalWalls = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+    ];
+}
+
 function drawMaze() {
 
     context.fillStyle = "#000000";
     context.strokeStyle = "#000000";
     context.beginPath();
 
+    // build horizontal walls
+    for(var i = 0; i < horizontalWalls.length; ++i) {
+        context.moveTo(0, (i + 1) * gameBoard.height / 10);
+
+        for(var j = 0; j < horizontalWalls[0].length; ++j) {
+            if(horizontalWalls[i][j]) {
+                context.lineTo((j + 1) * gameBoard.width / 20, (i + 1) * gameBoard.height / 10);
+            } else {
+                context.moveTo((j + 1) * gameBoard.width / 20,  (i + 1) * gameBoard.height / 10);
+            }
+        }
+    }
+
+    // build vertical walls
+    for(var j = 0; j < verticalWalls[0].length; ++j) {
+        context.moveTo((j + 1) * gameBoard.width / 20, 0);
+
+        for(var i = 0; i < verticalWalls.length; ++i) {
+            if(verticalWalls[i][j]) {
+                context.lineTo((j + 1) * gameBoard.width / 20, (i + 1) * gameBoard.height / 10);
+            } else {
+                context.moveTo((j + 1) * gameBoard.width / 20,  (i + 1) * gameBoard.height / 10);
+            }
+        }
+    }
+
+    /*
     context.moveTo(0, gameBoard.height / 10);
     context.lineTo(gameBoard.width / 20 * 19, gameBoard.height / 10);
     context.lineTo(gameBoard.width / 20 * 19, gameBoard.height / 10 * 9);
@@ -123,7 +182,7 @@ function drawMaze() {
     context.lineTo(gameBoard.width / 20 * 7, gameBoard.height / 10 * 8);
 
     context.moveTo(gameBoard.width / 20 * 10, gameBoard.height / 10 * 8);
-
+*/
     context.stroke();
 }
 

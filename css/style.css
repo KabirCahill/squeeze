@@ -6,8 +6,8 @@ body {
 }
 
 #mainContent {
-    width: 90%;
-    height: 90%;
+    width: 800px;
+    position: relative;
     margin: auto;
 }
 
@@ -16,4 +16,12 @@ body {
     background-color: #ffffff;
     margin: auto;
     display: block;
+}
+
+#start {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
 }
