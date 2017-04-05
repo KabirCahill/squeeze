@@ -1,0 +1,19 @@
+body {
+    background-color: #eeeeee;
+}
+
+#mainWrapper {
+}
+
+#mainContent {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
+#gameBoard {
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    margin: auto;
+    display: block;
+}
